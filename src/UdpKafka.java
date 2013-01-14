@@ -1,3 +1,13 @@
+/*
+ *     __  __    __      __ __      ______        
+ *    / / / /___/ /___  / //_/___ _/ __/ /______ _
+ *   / / / / __  / __ \/ ,< / __ `/ /_/ //_/ __ `/
+ *  / /_/ / /_/ / /_/ / /| / /_/ / __/ ,< / /_/ / 
+ *  \____/\__,_/ .___/_/ |_\__,_/_/ /_/|_|\__,_/  
+ *            /_/                                 
+ *
+ * @author Ori Livneh <ori@wikimedia.org>
+ */
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
@@ -5,74 +15,70 @@ import kafka.producer.ProducerConfig;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.MulticastSocket;
 import java.util.Properties;
 
 
 public class UdpKafka {
 
     private static final Properties props = new Properties();
+    private static String topic;
+    private static String udpGroup;
+    private static int udpPort;
     private static int udpWorkerId;
     private static int udpWorkers;
-    private static int udpPort;
+
 
     public static void main(String args[]) {
 
         String configFile = args.length == 0
                 ? "udp2kafka.properties"
                 : args[0];
-
         try {
             props.load(new FileInputStream(configFile));
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        udpPort = getIntProperty("udplog.port");
-        udpWorkerId = getIntProperty("udplog.id");
-        udpWorkers = getIntProperty("udplog.workers");
-        String topic = props.getProperty("topic");
+        initConfig();
 
         ProducerConfig config = new ProducerConfig(props);
         Producer<String, String> producer = new Producer<String, String>(config);
 
         try {
-            byte[] buf = new byte[65536];
-
-            DatagramSocket sock = new DatagramSocket(null);
+            MulticastSocket sock = new MulticastSocket(null);
             sock.setReuseAddress(true);
             sock.bind(new InetSocketAddress(udpPort));
+            sock.joinGroup(InetAddress.getByName(udpGroup));
 
+            byte[] buf = new byte[65536];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-            int count = 0;
-            //noinspection InfiniteLoopStatement
             while (true) {
                 sock.receive(packet);
                 String msg = new String(buf, 0, packet.getLength());
-
                 if (shouldHandle(msg)) {
                     producer.send(new KeyedMessage<String, String>(topic, msg));
-                    System.out.println(++count);
                 }
                 packet.setLength(buf.length);
             }
-
-        } catch (Exception e) {
-            System.err.println(e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+    }
+
+    private static void initConfig() {
+        topic = props.getProperty("topic");
+        udpGroup = props.getProperty("udplog.group");
+        udpPort = Integer.parseInt(props.getProperty("udplog.port"));
+        udpWorkerId = Integer.parseInt(props.getProperty("udplog.id"));
+        udpWorkers = Integer.parseInt(props.getProperty("udplog.workers"));
     }
 
     /**
-     * Load a property as an integer. *
-     */
-    private static int getIntProperty(String name) {
-        return Integer.parseInt(props.getProperty(name));
-    }
-
-    /**
-     * Determine if log line should be handled by this worker. *
+     * Determine if log line should be handled by this worker.
      */
     private static boolean shouldHandle(String msg) {
         long seqId = getSeqId(msg);
@@ -80,7 +86,7 @@ public class UdpKafka {
     }
 
     /**
-     * Extract a long sequence ID from udplog log line. *
+     * Extract a long sequence ID from udplog log line.
      */
     private static long getSeqId(String msg) {
         int start = msg.indexOf(' ');
@@ -123,3 +129,4 @@ public class UdpKafka {
         }
     }
 }
+
