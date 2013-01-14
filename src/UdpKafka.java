@@ -1,10 +1,10 @@
 /*
- *     __  __    __      __ __      ______        
- *    / / / /___/ /___  / //_/___ _/ __/ /______ _
- *   / / / / __  / __ \/ ,< / __ `/ /_/ //_/ __ `/
- *  / /_/ / /_/ / /_/ / /| / /_/ / __/ ,< / /_/ / 
- *  \____/\__,_/ .___/_/ |_\__,_/_/ /_/|_|\__,_/  
- *            /_/                                 
+ *  _   _     _       _  __      __ _
+ * | | | | __| |_ __ | |/ /__ _ / _| | ____ _
+ * | | | |/ _` | '_ \| ' // _` | |_| |/ / _` |
+ * | |_| | (_| | |_) | . \ (_| |  _|   < (_| |
+ *  \___/ \__,_| .__/|_|\_\__,_|_| |_|\_\__,_|
+ *           |_|
  *
  * @author Ori Livneh <ori@wikimedia.org>
  */
@@ -87,6 +87,8 @@ public class UdpKafka {
 
     /**
      * Extract a long sequence ID from udplog log line.
+     * The sequence ID is assumed to be a long integer in the second
+     * field of a set of space-separated fields: blah 123 blah blah ..
      */
     private static long getSeqId(String msg) {
         int start = msg.indexOf(' ');
