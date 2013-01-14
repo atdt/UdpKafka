@@ -33,7 +33,6 @@ public class UdpKafka {
         udpWorkerId = getIntProperty("udplog.id");
         udpWorkers = getIntProperty("udplog.workers");
         String topic = props.getProperty("topic");
-        System.out.println(topic);
 
         ProducerConfig config = new ProducerConfig(props);
         Producer<String, String> producer = new Producer<String, String>(config);

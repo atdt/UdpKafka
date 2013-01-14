@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="UdpKafka:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/UdpKafka_jar</output-path>
+    <root id="archive" name="UdpKafka.jar">
+      <element id="module-output" name="UdpKafka" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/scala-compiler.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/scala-library.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/akka-actors.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/scala-partest.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/jline.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/scala-actors.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/scalap.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/scala-reflect.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/scala-actors-migration.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/scala-swing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="/usr/local/Cellar/scala/2.10.0/libexec/lib/typesafe-config.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/projects/kafka/core/target/scala_2.8.0/kafka-0.8.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
