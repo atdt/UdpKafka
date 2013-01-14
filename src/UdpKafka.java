@@ -32,7 +32,6 @@ public class UdpKafka {
 
 
     public static void main(String args[]) {
-
         String configFile = args.length == 0
                 ? "udp2kafka.properties"
                 : args[0];
@@ -69,6 +68,9 @@ public class UdpKafka {
 
     }
 
+    /**
+     * Load configuration values.
+     */
     private static void initConfig() {
         topic = props.getProperty("topic");
         udpGroup = props.getProperty("udplog.group");
