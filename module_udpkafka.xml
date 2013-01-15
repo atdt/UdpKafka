@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_udpkafka" default="compile.module.udpkafka">
+  <dirname property="module.udpkafka.basedir" file="${ant.file.module_udpkafka}"/>
+  
+  
+  <property name="compiler.args.udpkafka" value="${compiler.args}"/>
+  
+  <property name="udpkafka.output.dir" value="${module.udpkafka.basedir}/out/production/UdpKafka"/>
+  <property name="udpkafka.testoutput.dir" value="${module.udpkafka.basedir}/out/test/UdpKafka"/>
+  
+  <path id="udpkafka.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="udpkafka.module.production.classpath">
+    <path refid="library.kafka-0.8.0.classpath"/>
+    <path refid="library.scala-compiler.classpath"/>
+  </path>
+  
+  <path id="udpkafka.runtime.production.module.classpath">
+    <pathelement location="${udpkafka.output.dir}"/>
+    <path refid="library.kafka-0.8.0.classpath"/>
+    <path refid="library.scala-compiler.classpath"/>
+  </path>
+  
+  <path id="udpkafka.module.classpath">
+    <pathelement location="${udpkafka.output.dir}"/>
+    <path refid="library.kafka-0.8.0.classpath"/>
+    <path refid="library.scala-compiler.classpath"/>
+  </path>
+  
+  <path id="udpkafka.runtime.module.classpath">
+    <pathelement location="${udpkafka.testoutput.dir}"/>
+    <pathelement location="${udpkafka.output.dir}"/>
+    <path refid="library.kafka-0.8.0.classpath"/>
+    <path refid="library.scala-compiler.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.udpkafka">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.udpkafka">
+    <patternset refid="excluded.from.module.udpkafka"/>
+  </patternset>
+  
+  <path id="udpkafka.module.sourcepath">
+    <dirset dir="${module.udpkafka.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.udpkafka" depends="compile.module.udpkafka.production,compile.module.udpkafka.tests" description="Compile module UdpKafka"/>
+  
+  <target name="compile.module.udpkafka.production" description="Compile module UdpKafka; production classes">
+    <mkdir dir="${udpkafka.output.dir}"/>
+    <javac destdir="${udpkafka.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.udpkafka}"/>
+      <bootclasspath refid="udpkafka.module.bootclasspath"/>
+      <classpath refid="udpkafka.module.production.classpath"/>
+      <src refid="udpkafka.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.udpkafka"/>
+    </javac>
+    
+    <copy todir="${udpkafka.output.dir}">
+      <fileset dir="${module.udpkafka.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.udpkafka.tests" depends="compile.module.udpkafka.production" description="compile module UdpKafka; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.udpkafka" description="cleanup module">
+    <delete dir="${udpkafka.output.dir}"/>
+    <delete dir="${udpkafka.testoutput.dir}"/>
+  </target>
+</project>
