@@ -4,7 +4,7 @@
  * | | | |/ _` | '_ \| ' // _` | |_| |/ / _` |
  * | |_| | (_| | |_) | . \ (_| |  _|   < (_| |
  *  \___/ \__,_| .__/|_|\_\__,_|_| |_|\_\__,_|
- *           |_|
+ *             |_|
  *
  * Route udplog data from UDP multicast to Kafka.
  *
@@ -12,8 +12,8 @@
  * and maintaining a separate instance for each worker. The sequence ID
  * is hashed to account for any periodicity in the data stream.
  *
- * Configuration is read from 'udpkafka.properties' by default. An alt.
- * configuration file can be specified as the first command-line argument.
+ * Configuration is read from 'udpkafka.properties' by default. An
+ * alt. config file can be specified as the first command-line argument.
  *
  * @author Ori Livneh <ori@wikimedia.org>
  * @version %I%, %G%
