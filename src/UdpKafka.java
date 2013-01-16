@@ -1,11 +1,4 @@
 /**
- *  _   _     _       _  __      __ _
- * | | | | __| |_ __ | |/ /__ _ / _| | ____ _
- * | | | |/ _` | '_ \| ' // _` | |_| |/ / _` |
- * | |_| | (_| | |_) | . \ (_| |  _|   < (_| |
- *  \___/ \__,_| .__/|_|\_\__,_|_| |_|\_\__,_|
- *             |_|
- *
  * Route udplog data from UDP multicast to Kafka.
  *
  * Workload is balanced by bucketing messages on the sequence ID value
@@ -173,4 +166,3 @@ public class UdpKafka {
         }
     }
 }
-
